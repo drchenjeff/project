@@ -1,27 +1,26 @@
 package com.huawei.pro.controller;
 
-import org.springframework.http.HttpRequest;
+import com.huawei.pro.bean.AppConf;
+import com.huawei.pro.service.FileService;
+import freemarker.core.Environment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class H2Controller
-{
+public class H2Controller {
+    @Autowired
+    private FileService fileService;
 
-    @RequestMapping("/index")
-    public String index(ModelMap map)
-    {
-        System.out.println("测试index");
+    @Autowired
+    private AppConf appConf;
 
-        map.addAttribute("name","曾担任");
-//        ModelAndView mv = new ModelAndView("page/index");
-//
-//        mv.addObject("message","Hello World");
+    @RequestMapping("/parse")
+    public @ResponseBody String parse() {
 
-        return "page";
+        fileService.parse(appConf.getParse_dir());
+
+        return "Start Success ! Please wait ...";
     }
-
 }

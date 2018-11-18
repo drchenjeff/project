@@ -12,6 +12,12 @@ public class AppConf {
 
     private static String parse_dir;
 
+    private static String port;
+
+    public String getPort() { return env.getProperty("server.port"); }
+
+    public void setPort(String port) { AppConf.port = port; }
+
     public String getParse_dir() {
         return env.getProperty("file.dir");
     }

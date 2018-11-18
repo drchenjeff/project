@@ -92,8 +92,7 @@ public class FileUtil
         ArrayList<File> nextDir= getByDepth(dir,1);
 
         for (File file : nextDir) {
-            if (!file.isDirectory())
-            {
+            if (!file.isDirectory()) {
                 nextFiles.add(file);
             }
         }
@@ -126,4 +125,5 @@ public class FileUtil
         return files;
 
     }
+
 }

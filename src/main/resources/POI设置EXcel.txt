@@ -1,0 +1,341 @@
+ POI中可能会用到一些需要设置EXCEL单元格格式的操作小结：
+
+先获取工作薄对象:
+
+HSSFWorkbook wb = new HSSFWorkbook();
+
+HSSFSheet sheet = wb.createSheet();
+
+HSSFCellStyle setBorder = wb.createCellStyle();
+
+一、设置背景色：
+
+setBorder.setFillForegroundColor((short) 13);// 设置背景色
+setBorder.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
+二、设置边框:
+
+setBorder.setBorderBottom(HSSFCellStyle.BORDER_THIN); //下边框
+setBorder.setBorderLeft(HSSFCellStyle.BORDER_THIN);//左边框
+setBorder.setBorderTop(HSSFCellStyle.BORDER_THIN);//上边框
+setBorder.setBorderRight(HSSFCellStyle.BORDER_THIN);//右边框
+
+三、设置居中:
+
+setBorder.setAlignment(HSSFCellStyle.ALIGN_CENTER); // 居中
+
+四、设置字体:
+
+HSSFFont font = wb.createFont();
+font.setFontName("黑体");
+font.setFontHeightInPoints((short) 16);//设置字体大小
+
+HSSFFont font2 = wb.createFont();
+font2.setFontName("仿宋_GB2312");
+font2.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);//粗体显示
+font2.setFontHeightInPoints((short) 12);
+
+setBorder.setFont(font);//选择需要用到的字体格式
+
+五、设置列宽:
+
+sheet.setColumnWidth(0, 3766); //第一个参数代表列id(从0开始),第2个参数代表宽度值
+
+六、设置自动换行:
+
+setBorder.setWrapText(true);//设置自动换行
+
+七、合并单元格:
+
+Region region1 = new Region(0, (short) 0, 0, (short) 6);
+
+//参数1：行号 参数2：起始列号 参数3：行号 参数4：终止列号
+sheet.addMergedRegion(region1);
+
+八、加边框
+
+  HSSFCellStyle cellStyle= wookBook.createCellStyle();
+  cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+  cellStyle.setBorderBottom(HSSFCellStyle.BorderBORDER_MEDIUM);
+  cellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+  cellStyle.setBorderLeft(HSSFCellStyle.BORDER_MEDIUM);
+  cellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+  cellStyle.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);
+  cellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+  cellStyle.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
+  cellStyle.setTopBorderColor(HSSFColor.BLACK.index);
+
+另附:完整小例子一个
+
+开发环境：IntelliJ IDEA 10.0.2
+
+@ResponseBody
+
+@RequestMapping(value = "/reportForms/joinStocktaking/exportStorage.api")
+
+public AjaxResponse exportStorage(@RequestBody StorageModel model) throws Exception {
+
+if (logger.isDebugEnabled())
+
+logger.debug("tmpdir is, {}", System.getProperty(JAVA_IO_TMPDIR));
+
+int row = 1;
+
+
+HSSFWorkbook workbook = new HSSFWorkbook();
+
+HSSFSheet hssfSheet = workbook.createSheet();
+
+HSSFCellStyle style = workbook.createCellStyle();
+
+style.setFillBackgroundColor(HSSFCellStyle.LEAST_DOTS);
+
+style.setFillPattern(HSSFCellStyle.LEAST_DOTS);
+
+
+//设置Excel中的边框(表头的边框)
+
+style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+style.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM);
+
+style.setBottomBorderColor(HSSFColor.BLACK.index);
+
+style.setBorderLeft(HSSFCellStyle.BORDER_MEDIUM);
+
+style.setLeftBorderColor(HSSFColor.BLACK.index);
+
+style.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);
+
+style.setRightBorderColor(HSSFColor.BLACK.index);
+
+style.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
+
+style.setTopBorderColor(HSSFColor.BLACK.index);
+
+
+//设置字体
+
+HSSFFont font = workbook.createFont();
+
+font.setFontHeightInPoints((short) 14); // 字体高度
+
+font.setFontName(" 黑体 "); // 字体
+
+
+style.setFont(font);
+
+HSSFRow firstRow = hssfSheet.createRow((short) 0);
+
+HSSFCell firstCell = firstRow.createCell(0);
+
+firstRow.setHeight((short) 400);
+
+//设置Excel中的背景
+
+style.setFillForegroundColor(HSSFColor.GREEN.index);
+
+style.setFillBackgroundColor(HSSFColor.GREEN.index);
+
+firstCell.setCellValue(new HSSFRichTextString("库房"));
+
+firstCell.setCellStyle(style);
+
+
+HSSFCell secondCell = firstRow.createCell(1);
+
+firstRow.setHeight((short) 400);
+
+style.setFillForegroundColor(HSSFColor.GREEN.index);
+
+style.setFillBackgroundColor(HSSFColor.GREEN.index);
+
+secondCell.setCellValue(new HSSFRichTextString("库区"));
+
+secondCell.setCellStyle(style);
+
+
+HSSFCell threeCell = firstRow.createCell(2);
+
+firstRow.setHeight((short) 400);
+
+style.setFillForegroundColor(HSSFColor.GREEN.index);
+
+style.setFillBackgroundColor(HSSFColor.GREEN.index);
+
+threeCell.setCellValue(new HSSFRichTextString("物料编号"));
+
+threeCell.setCellStyle(style);
+
+
+HSSFCell fourCell = firstRow.createCell(3);
+
+firstRow.setHeight((short) 400);
+
+style.setFillForegroundColor(HSSFColor.GREEN.index);
+
+style.setFillBackgroundColor(HSSFColor.GREEN.index);
+
+fourCell.setCellValue(new HSSFRichTextString("物料名称"));
+
+fourCell.setCellStyle(style);
+
+
+HSSFCell fiveCell = firstRow.createCell(4);
+
+firstRow.setHeight((short) 400);
+
+style.setFillForegroundColor(HSSFColor.GREEN.index);
+
+style.setFillBackgroundColor(HSSFColor.GREEN.index);
+
+fiveCell.setCellValue(new HSSFRichTextString("在库数量"));
+
+fiveCell.setCellStyle(style);
+
+
+HSSFCell sixCell = firstRow.createCell(5);
+
+firstRow.setHeight((short) 400);
+
+style.setFillForegroundColor(HSSFColor.GREEN.index);
+
+style.setFillBackgroundColor(HSSFColor.GREEN.index);
+
+sixCell.setCellValue(new HSSFRichTextString("锁定数量"));
+
+sixCell.setCellStyle(style);
+
+
+//设置列宽
+
+hssfSheet.setColumnWidth(0, 7000);
+
+hssfSheet.setColumnWidth(1, 8000);
+
+hssfSheet.setColumnWidth(2, 4000);
+
+hssfSheet.setColumnWidth(3, 6000);
+
+hssfSheet.setColumnWidth(4, 4000);
+
+hssfSheet.setColumnWidth(5, 4000);
+
+
+
+List<?> list = joinStocktackingService.findjoinStorageByTerm(model.getWareHouse(), model.getStockArea(), model.getMaterialCode(), model.getMaterialName());
+
+for (Object object : list) {
+
+Object[] objects = (Object[]) object;
+
+Storage storage = (Storage) objects[0];
+
+Warehouse warehouse = (Warehouse) objects[1];
+
+StockArea stockArea = (StockArea) objects[2];
+
+Material material = (Material) objects[3];
+
+
+
+//设置Excel中的边框
+
+HSSFCellStyle cellStyle = workbook.createCellStyle();
+
+cellStyle.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+cellStyle.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM);
+
+cellStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+
+cellStyle.setBorderLeft(HSSFCellStyle.BORDER_MEDIUM);
+
+cellStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+
+cellStyle.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);
+
+cellStyle.setRightBorderColor(HSSFColor.BLACK.index);
+
+cellStyle.setBorderTop(HSSFCellStyle.BORDER_MEDIUM);
+
+cellStyle.setTopBorderColor(HSSFColor.BLACK.index);
+
+
+
+HSSFRow hssfRow = hssfSheet.createRow((short) row);
+
+HSSFCell firstHssfCell = hssfRow.createCell(0);//库房
+
+firstHssfCell.setCellType(HSSFCell.CELL_TYPE_STRING);
+
+firstHssfCell.setCellValue(new HSSFRichTextString(warehouse.getName()));
+
+firstHssfCell.setCellStyle(cellStyle);//设置单元格的样式
+
+
+HSSFCell secondHssfCell = hssfRow.createCell(1);
+
+secondHssfCell.setCellType(HSSFCell.CELL_TYPE_STRING);
+
+secondHssfCell.setCellValue(new HSSFRichTextString(stockArea.getName()));
+
+secondHssfCell.setCellStyle(cellStyle);//设置单元格的样式
+
+
+HSSFCell threeHssfCell = hssfRow.createCell(2);
+
+threeHssfCell.setCellType(HSSFCell.CELL_TYPE_STRING);
+
+threeHssfCell.setCellValue(new HSSFRichTextString(material.getCode()));
+
+threeHssfCell.setCellStyle(cellStyle);//设置单元格的样式
+
+
+HSSFCell fourHssfCell = hssfRow.createCell(3);
+
+fourHssfCell.setCellType(HSSFCell.CELL_TYPE_STRING);
+
+fourHssfCell.setCellValue(new HSSFRichTextString(material.getName()));
+
+fourHssfCell.setCellStyle(cellStyle);//设置单元格的样式
+
+
+HSSFCell fiveHssfCell = hssfRow.createCell(4);
+
+fiveHssfCell.setCellType(HSSFCell.CELL_TYPE_STRING);
+
+fiveHssfCell.setCellValue(new HSSFRichTextString(String.valueOf(storage.getQty())));
+
+fiveHssfCell.setCellStyle(cellStyle);//设置单元格的样式
+
+
+HSSFCell sixHssfCell = hssfRow.createCell(5);
+
+sixHssfCell.setCellType(HSSFCell.CELL_TYPE_STRING);
+
+sixHssfCell.setCellValue(new HSSFRichTextString(String.valueOf(storage.getQtyLocked())));
+
+sixHssfCell.setCellStyle(cellStyle);//设置单元格的样式
+
+
+row++;
+
+}
+
+String newFileName = String.format("%s.%s", "joinStocktaking-" + (new Date()).getTime(), "xls");
+
+String uploadPath = FileUtils.contractPath(System.getProperty(JAVA_IO_TMPDIR), newFileName);
+
+FileOutputStream fOut = new FileOutputStream(uploadPath);
+
+workbook.write(fOut);
+
+fOut.flush();
+
+fOut.close();
+
+
+return AjaxResponse.createSuccess(newFileName);
+
+}

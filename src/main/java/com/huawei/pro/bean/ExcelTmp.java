@@ -2,7 +2,6 @@ package com.huawei.pro.bean;
 
 import com.huawei.pro.utils.ExcelUtil;
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.xssf.usermodel.*;
 import org.springframework.stereotype.Component;
 
@@ -12,12 +11,10 @@ import java.util.List;
 @Component
 public class ExcelTmp {
 
-    private ExcelTmp excel;
-
     private HSSFWorkbook hwb;
-
     private XSSFWorkbook xwb;
 
+    //设置表格列宽
     private int columnWidth = 20;
 
     //sheet名称
@@ -34,9 +31,11 @@ public class ExcelTmp {
 
     //标题栏表格风格
     private HSSFCellStyle hheaderStyle;
+    private XSSFCellStyle xheaderStyle;
 
     //正文栏表格风格
     private HSSFCellStyle hmainStyle;
+    private XSSFCellStyle xmainStyle;
 
     private OutputStream out;
 
@@ -97,6 +96,445 @@ public class ExcelTmp {
     }
 
     public ExcelTmp() {
+
+    }
+
+    public HSSFWorkbook getHwb() {
+        return hwb;
+    }
+
+    public void setHwb(HSSFWorkbook hwb) {
+        this.hwb = hwb;
+    }
+
+    public XSSFWorkbook getXwb() {
+        return xwb;
+    }
+
+    public void setXwb(XSSFWorkbook xwb) {
+        this.xwb = xwb;
+    }
+
+    public int getColumnWidth() {
+        return columnWidth;
+    }
+
+    public void setColumnWidth(int columnWidth) {
+        this.columnWidth = columnWidth;
+    }
+
+    public void setXheaderStyle(XSSFCellStyle xheaderStyle) {
+        this.xheaderStyle = xheaderStyle;
+    }
+
+    public XSSFCellStyle getXheaderStyle() {
+        return xheaderStyle;
+    }
+
+    public XSSFCellStyle getXmainStyle() {
+        return xmainStyle;
+    }
+
+    public void setXmainStyle(XSSFCellStyle xmainStyle) {
+        this.xmainStyle = xmainStyle;
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, int sheetNum, String[] headers,
+                    List<List<String>> result, OutputStream out) {
+        this.xwb = xwb;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook wb, int sheetNum, String[] headers,
+                    List<List<String>> result, OutputStream out) {
+        this.hwb = wb;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, int sheetNum, String sheetTitle, int columnWidth, String[] headers,
+                    XSSFCellStyle xheaderStyle, List<List<String>> result, XSSFCellStyle xmainStyle,
+                    OutputStream out) {
+        this.xwb = xwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.xheaderStyle = xheaderStyle;
+        this.xmainStyle = xmainStyle;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook hwb, int sheetNum, String sheetTitle, int columnWidth, String[] headers,
+                    HSSFCellStyle hheaderStyle, List<List<String>> result, HSSFCellStyle hmainStyle,
+                    OutputStream out) {
+        this.hwb = hwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.hheaderStyle = hheaderStyle;
+        this.hmainStyle = hmainStyle;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, String sheetTitle, int columnWidth, String[] headers,
+                    XSSFCellStyle xheaderStyle, List<List<String>> result, XSSFCellStyle xmainStyle,
+                    OutputStream out) {
+        this.xwb = xwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.xheaderStyle = xheaderStyle;
+        this.xmainStyle = xmainStyle;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook hwb, String sheetTitle, int columnWidth, String[] headers,
+                    HSSFCellStyle hheaderStyle, List<List<String>> result, HSSFCellStyle hmainStyle,
+                    OutputStream out) {
+        this.hwb = hwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.hheaderStyle = hheaderStyle;
+        this.hmainStyle = hmainStyle;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, int sheetNum, int columnWidth, String[] headers,
+                    XSSFCellStyle xheaderStyle, List<List<String>> result, XSSFCellStyle xmainStyle,
+                    OutputStream out) {
+        this.xwb = xwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.xheaderStyle = xheaderStyle;
+        this.xmainStyle = xmainStyle;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook hwb, int sheetNum, int columnWidth, String[] headers,
+                    HSSFCellStyle hheaderStyle, List<List<String>> result, HSSFCellStyle hmainStyle,
+                    OutputStream out) {
+        this.hwb = hwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.hheaderStyle = hheaderStyle;
+        this.hmainStyle = hmainStyle;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, int sheetNum, String sheetTitle, String[] headers,
+                    XSSFCellStyle xheaderStyle, List<List<String>> result, XSSFCellStyle xmainStyle,
+                    OutputStream out) {
+        this.xwb = xwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.xheaderStyle = xheaderStyle;
+        this.xmainStyle = xmainStyle;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook hwb, int sheetNum, String sheetTitle, String[] headers,
+                    HSSFCellStyle hheaderStyle, List<List<String>> result, HSSFCellStyle hmainStyle,
+                    OutputStream out) {
+        this.hwb = hwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.hheaderStyle = hheaderStyle;
+        this.hmainStyle = hmainStyle;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, int sheetNum, String sheetTitle, int columnWidth, String[] headers,
+                    List<List<String>> result, XSSFCellStyle xmainStyle,
+                    OutputStream out) {
+        this.xwb = xwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.xheaderStyle = xheaderStyle;
+        this.xmainStyle = xmainStyle;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook hwb, int sheetNum, String sheetTitle, int columnWidth, String[] headers,
+                    List<List<String>> result, HSSFCellStyle hmainStyle,
+                    OutputStream out) {
+        this.hwb = hwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.hheaderStyle = hheaderStyle;
+        this.hmainStyle = hmainStyle;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, int sheetNum, String sheetTitle, int columnWidth, String[] headers,
+                    XSSFCellStyle xheaderStyle, List<List<String>> result,
+                    OutputStream out) {
+        this.xwb = xwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.xheaderStyle = xheaderStyle;
+        this.xmainStyle = xmainStyle;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook hwb, int sheetNum, String sheetTitle, int columnWidth, String[] headers,
+                    HSSFCellStyle hheaderStyle, List<List<String>> result,
+                    OutputStream out) {
+        this.hwb = hwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.hheaderStyle = hheaderStyle;
+        this.hmainStyle = hmainStyle;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, int columnWidth, String[] headers,
+                    XSSFCellStyle xheaderStyle, List<List<String>> result, XSSFCellStyle xmainStyle,
+                    OutputStream out) {
+        this.xwb = xwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.xheaderStyle = xheaderStyle;
+        this.xmainStyle = xmainStyle;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook hwb, int columnWidth, String[] headers,
+                    HSSFCellStyle hheaderStyle, List<List<String>> result, HSSFCellStyle hmainStyle,
+                    OutputStream out) {
+        this.hwb = hwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.hheaderStyle = hheaderStyle;
+        this.hmainStyle = hmainStyle;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, String[] headers,
+                    XSSFCellStyle xheaderStyle, List<List<String>> result, XSSFCellStyle xmainStyle,
+                    OutputStream out) {
+        this.xwb = xwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.xheaderStyle = xheaderStyle;
+        this.xmainStyle = xmainStyle;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook hwb, String[] headers,
+                    HSSFCellStyle hheaderStyle, List<List<String>> result, HSSFCellStyle hmainStyle,
+                    OutputStream out) {
+        this.hwb = hwb;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.hheaderStyle = hheaderStyle;
+        this.hmainStyle = hmainStyle;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, int sheetNum, String sheetTitle, String[] headers,
+                    XSSFCellStyle xheaderStyle, List<List<String>> result,
+                    OutputStream out) {
+        this.xwb = xwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.xheaderStyle = xheaderStyle;
+        this.xmainStyle = xmainStyle;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook hwb, int sheetNum, String sheetTitle, String[] headers,
+                    HSSFCellStyle hheaderStyle, List<List<String>> result,
+                    OutputStream out) {
+        this.hwb = hwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.hheaderStyle = hheaderStyle;
+        this.hmainStyle = hmainStyle;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, int sheetNum, int columnWidth, String[] headers,
+                    XSSFCellStyle xheaderStyle, List<List<String>> result,
+                    OutputStream out) {
+        this.xwb = xwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.xheaderStyle = xheaderStyle;
+        this.xmainStyle = xmainStyle;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook hwb, int sheetNum, int columnWidth, String[] headers,
+                    HSSFCellStyle hheaderStyle, List<List<String>> result,
+                    OutputStream out) {
+        this.hwb = hwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.hheaderStyle = hheaderStyle;
+        this.hmainStyle = hmainStyle;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, String[] headers,
+                    XSSFCellStyle xheaderStyle, List<List<String>> result,
+                    OutputStream out) {
+        this.xwb = xwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.xheaderStyle = xheaderStyle;
+        this.xmainStyle = xmainStyle;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook hwb, String[] headers,
+                    HSSFCellStyle hheaderStyle, List<List<String>> result,
+                    OutputStream out) {
+        this.hwb = hwb;
+        this.columnWidth = columnWidth;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.hheaderStyle = hheaderStyle;
+        this.hmainStyle = hmainStyle;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, int sheetNum, String sheetTitle, String[] headers,
+                    List<List<String>> result, OutputStream out) {
+        this.xwb = xwb;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook wb, int sheetNum, String sheetTitle, String[] headers,
+                    List<List<String>> result, HSSFCellStyle hmainStyle, OutputStream out) {
+        this.hwb = wb;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.sheetNum = sheetNum;
+        this.out = out;
+        this.hmainStyle = hmainStyle;
+
+        exportExcel(hwb);
     }
 
     public ExcelTmp(HSSFWorkbook wb, int sheetNum, String sheetTitle, String[] headers,
@@ -111,44 +549,83 @@ public class ExcelTmp {
         exportExcel(hwb);
     }
 
-    //TODO 重构代码
+    public ExcelTmp(XSSFWorkbook xwb, String sheetTitle, String[] headers,
+                    List<List<String>> result, OutputStream out) {
+        this.xwb = xwb;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook wb, String sheetTitle, String[] headers,
+                    List<List<String>> result, OutputStream out) {
+        this.hwb = wb;
+        this.sheetTitle = sheetTitle;
+        this.headers = headers;
+        this.result = result;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
+    public ExcelTmp(XSSFWorkbook xwb, String[] headers,
+                    List<List<String>> result, OutputStream out) {
+        this.xwb = xwb;
+        this.headers = headers;
+        this.result = result;
+        this.out = out;
+
+        exportExcel(xwb);
+    }
+
+    public ExcelTmp(HSSFWorkbook wb, String[] headers,
+                    List<List<String>> result, OutputStream out) {
+        this.hwb = wb;
+        this.headers = headers;
+        this.result = result;
+        this.out = out;
+
+        exportExcel(hwb);
+    }
+
     private void exportExcel(XSSFWorkbook xwb) {
 
         // 生成一个表格
         XSSFSheet sheet = xwb.createSheet();
+
+        if (sheetTitle == null) {
+            sheetTitle = String.format("sheet%s", String.valueOf(sheetNum));
+        }
+
+        if (xwb.getNumberOfSheets() < sheetNum) {
+            sheetNum = xwb.getNumberOfSheets() - 1;
+        }
+
         xwb.setSheetName(sheetNum, sheetTitle);
         // 设置表格默认列宽度为20个字节
-        sheet.setDefaultColumnWidth(20);
-        // 生成一个样式
-        XSSFCellStyle style = xwb.createCellStyle();
-        // 设置这些样式
-        style.setFillForegroundColor(HSSFColor.PALE_BLUE.index);
-        style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-        style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
-        style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
-        style.setBorderRight(HSSFCellStyle.BORDER_THIN);
-        style.setBorderTop(HSSFCellStyle.BORDER_THIN);
-        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-        // 生成一个字体
-        XSSFFont font = xwb.createFont();
-        font.setColor(HSSFColor.BLACK.index);
-        font.setFontHeightInPoints((short) 12);
-        font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
-        // 把字体应用到当前的样式
-        style.setFont(font);
+        sheet.setDefaultColumnWidth(columnWidth);
 
-        // 指定当单元格内容显示不下时自动换行
-        style.setWrapText(true);
+        if (xheaderStyle == null) {
+            xheaderStyle = ExcelUtil.getHeaderXssfCellStyle(xwb);
+        }
+
+        if (xmainStyle == null) {
+            xmainStyle = ExcelUtil.getMainXssfCellStyle(xwb);
+        }
 
         // 产生表格标题行
         XSSFRow row = sheet.createRow(0);
         for (int i = 0; i < headers.length; i++) {
             XSSFCell cell = row.createCell(i);
 
-            cell.setCellStyle(style);
+            cell.setCellStyle(xheaderStyle);
             HSSFRichTextString text = new HSSFRichTextString(headers[i]);
             cell.setCellValue(text.toString());
         }
+
         // 遍历集合数据，产生数据行
         if (result != null) {
             int index = 1;
@@ -157,6 +634,9 @@ public class ExcelTmp {
                 int cellIndex = 0;
                 for (String str : m) {
                     XSSFCell cell = row.createCell(cellIndex);
+
+                    cell.setCellStyle(xmainStyle);
+                    
                     cell.setCellValue(str);
                     cellIndex++;
                 }
@@ -165,17 +645,31 @@ public class ExcelTmp {
         }
     }
 
+
     private void exportExcel(HSSFWorkbook hwb) {
 
         // 生成一个表格
         HSSFSheet sheet = hwb.createSheet();
+
+        if (sheetTitle == null) {
+            sheetTitle = String.format("sheet%s", String.valueOf(sheetNum));
+        }
+
+        if (hwb.getNumberOfSheets() < sheetNum) {
+            sheetNum = hwb.getNumberOfSheets() - 1;
+        }
+
         hwb.setSheetName(sheetNum, sheetTitle);
         // 设置表格默认列宽度为20个字节
         sheet.setDefaultColumnWidth(columnWidth);
 
 
         if (hheaderStyle == null) {
-            hheaderStyle = ExcelUtil.getDefaultHssfHeaderStyle(hwb);
+            hheaderStyle = ExcelUtil.getHeaderHssfStyle(hwb);
+        }
+
+        if (hmainStyle == null) {
+            hmainStyle = ExcelUtil.getMainHssfStyle(hwb);
         }
         // 产生表格标题行
         HSSFRow row = sheet.createRow(0);
@@ -185,10 +679,6 @@ public class ExcelTmp {
             cell.setCellStyle(hheaderStyle);
             HSSFRichTextString text = new HSSFRichTextString(headers[i]);
             cell.setCellValue(text.toString());
-        }
-
-        if (hmainStyle == null) {
-            hmainStyle = ExcelUtil.getDefaultHssfMainStyle(hwb);
         }
 
         // 遍历集合数据，产生数据行

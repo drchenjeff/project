@@ -2,7 +2,10 @@ package com.huawei.pro.testDemo;
 
 import com.huawei.pro.ProjectApp;
 import com.huawei.pro.bean.ExcelTmp;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
@@ -26,7 +29,6 @@ public class TestDemo {
     public void poiTest() {
 
         try {
-            OutputStream out = new FileOutputStream("E:\\test.xls");
             List<List<String>> data = new ArrayList<List<String>>();
             for (int i = 1; i < 5; i++) {
                 List rowData = new ArrayList();
@@ -36,11 +38,34 @@ public class TestDemo {
             }
             String[] headers = {"ID", "用户名"};
 
+            OutputStream out = new FileOutputStream("E:\\test.xls");
             HSSFWorkbook workbook = new HSSFWorkbook();
 
-            new ExcelTmp(workbook, 0, "上海", headers, data, out);
-            new ExcelTmp(workbook, 1, "深圳", headers, data, out);
-            new ExcelTmp(workbook, 2, "广州", headers, data, out);
+//            new ExcelTmp(workbook, 0, headers, data, out);
+//            new ExcelTmp(workbook, 1, headers, data, out);
+//            new ExcelTmp(workbook, 2, "广州", headers, data, out);
+
+            // 生成一个样式
+            HSSFCellStyle style = workbook.createCellStyle();
+            // 设置这些样式
+            style.setFillForegroundColor(HSSFColor.PALE_BLUE.index);
+            style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+            style.setBorderBottom(HSSFCellStyle.BORDER_THIN);
+            style.setBorderLeft(HSSFCellStyle.BORDER_THIN);
+            style.setBorderRight(HSSFCellStyle.BORDER_THIN);
+            style.setBorderTop(HSSFCellStyle.BORDER_THIN);
+            style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+
+            // 生成一个字体
+            HSSFFont font = workbook.createFont();
+            font.setColor(HSSFColor.BLACK.index);
+            font.setFontHeightInPoints((short) 12);
+            font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+
+            // 把字体应用到当前的样式
+            style.setFont(font);
+
+            ExcelTmp tmp = new ExcelTmp(workbook, 2, "广州", headers, data, style, out);
 
             //原理就是将所有的数据一起写入，然后再关闭输入流。
             workbook.write(out);

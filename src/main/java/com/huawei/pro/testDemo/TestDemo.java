@@ -1,7 +1,7 @@
 package com.huawei.pro.testDemo;
 
 import com.huawei.pro.ProjectApp;
-import com.huawei.pro.bean.ExcelTmp;
+import com.huawei.pro.utils.ExcelTmp;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;

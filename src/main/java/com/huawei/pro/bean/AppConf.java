@@ -1,7 +1,7 @@
 package com.huawei.pro.bean;
 
-import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +13,8 @@ public class AppConf {
     private static String parse_dir;
 
     private static String port;
+
+    private static String url;
 
     public String getPort() { return env.getProperty("server.port"); }
 
@@ -26,7 +28,15 @@ public class AppConf {
         this.parse_dir = parse_dir;
     }
 
-//    public void show(){
+    public String getUrl() {
+        return env.getProperty("spring.datasource.url");
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    //    public void show(){
 //        System.out.println("===========================================");
 //        //获取字符串
 //        System.out.println("String: " +env.getProperty("string.port") + 1111);

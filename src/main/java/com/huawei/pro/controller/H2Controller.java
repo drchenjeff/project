@@ -2,7 +2,6 @@ package com.huawei.pro.controller;
 
 import com.huawei.pro.bean.AppConf;
 import com.huawei.pro.service.FileService;
-import freemarker.core.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

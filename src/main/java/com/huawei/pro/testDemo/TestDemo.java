@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.*;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,6 +97,52 @@ public class TestDemo {
             wb = new XSSFWorkbook(in);
         }
         return wb;
+    }
+
+    /**
+     * 数据库操作测试
+     *
+     * @param args
+     * @throws ClassNotFoundException, SQLException
+     */
+    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+        Class.forName("org.h2.Driver");
+
+        //一开始必须填一个已经存在的数据库
+//        String url = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8";
+        String url = "jdbc:h2:file:./test";
+        Connection conn = DriverManager.getConnection(url, "root", "root");
+        Statement stat = conn.createStatement();
+
+
+        //创建数据库hello
+        stat.executeUpdate("create schema if not exists test;");
+//        stat.executeUpdate("create database hello");
+
+        //打开创建的数据库
+        stat.close();
+        conn.close();
+        url = "jdbc:h2:file:./test";
+        conn = DriverManager.getConnection(url, "root", "root");
+        stat = conn.createStatement();
+
+        //创建表test
+        stat.executeUpdate("create table test(id int, name varchar(80))");
+
+        //添加数据
+        stat.executeUpdate("insert into test values(1, '张三')");
+        stat.executeUpdate("insert into test values(2, '李四')");
+
+        //查询数据
+        ResultSet result = stat.executeQuery("select * from test");
+        while (result.next()) {
+            System.out.println(result.getInt("id") + " " + result.getString("name"));
+        }
+
+        //关闭数据库
+        result.close();
+        stat.close();
+        conn.close();
     }
 
 }

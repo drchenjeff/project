@@ -7,7 +7,10 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 @SpringBootConfiguration
 @SpringBootApplication
@@ -22,7 +25,7 @@ public class ProjectApp {
 //        Debug.println("Config parse","do with application.properties");
 
         myconf = (AppConf) ctx.getBean("appConf");
-//初始化H2数据库
+//      初始化H2数据库,创建PROJECT数据库
         initH2();
 
         LogUtil.log.info("Start Success on port :" + myconf.getPort());
@@ -35,31 +38,9 @@ public class ProjectApp {
             Connection conn = DriverManager.getConnection(myconf.getUrl(), "root", "root");
             Statement stat = conn.createStatement();
 
-            //创建数据库hello
-            stat.executeUpdate("create schema if not exists test;");
-//        stat.executeUpdate("create database hello");
+            //创建数据库PROJECT
+            stat.executeUpdate("create schema if not exists PROJECT;");
 
-            //创建表test
-            stat.executeUpdate("create table test.test(id int, name varchar(80))");
-
-            stat.close();
-            conn.close();
-
-            conn = DriverManager.getConnection(myconf.getUrl(), "root", "root");
-            stat = conn.createStatement();
-
-            //添加数据
-            stat.executeUpdate("insert into test.test values(1, '张三')");
-            stat.executeUpdate("insert into test.test values(2, '李四')");
-
-            //查询数据
-            ResultSet result = stat.executeQuery("select * from test.test");
-            while (result.next()) {
-                System.out.println(result.getInt("id") + " " + result.getString("name"));
-            }
-
-            //打开创建的数据库
-            result.close();
             stat.close();
             conn.close();
 

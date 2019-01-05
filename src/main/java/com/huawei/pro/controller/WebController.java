@@ -11,6 +11,13 @@ public class WebController {
     public String index(ModelMap map) {
         map.addAttribute("name", "陈大荣");
 
-        return "index";
+        return "hello";
+    }
+
+    @RequestMapping("/test")
+    public String test(ModelMap map) {
+//        map.addAttribute("name", "陈大荣");
+
+        return "test";
     }
 }
